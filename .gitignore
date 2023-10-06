@@ -5,3 +5,7 @@ DS_Store
 
 # IDE
 .idea/
+
+# Generated files
+target/
+Cargo.lock
