@@ -20,23 +20,23 @@
 // enums are public by default
 
 // front_of_house does not need to be public since eat_at_restaurant is a sibling
-mod front_of_house {
-    pub mod hosting {
-        pub fn add_to_waitlist() {}
-
-        fn seat_at_table() {}
-    }
-
-    mod serving {
-        fn take_order() {}
-
-        fn serve_order() {}
-
-        fn take_payment() {}
-    }
-}
+mod front_of_house;
 
 fn deliver_order() {}
+
+// use helps to shorten relative paths in the scope that use occurs
+// re-exporting - bringing an item into scope and making it available
+pub use crate::front_of_house::hosting;
+
+// rename with alias
+use std::fmt::Result;
+use std::io::Result as IoResult;
+
+// shortens the code by collapsing the common part of the path
+use std::{cmp::Ordering, io};
+
+// brings all public items defined in a path to scope
+use std::collections::*;
 
 mod back_of_house {
     fn fix_incorrect_order() {
@@ -73,8 +73,8 @@ pub fn eat_at_restaurant() {
     // Absolute path
     crate::front_of_house::hosting::add_to_waitlist();
 
-    // Relative path
-    front_of_house::hosting::add_to_waitlist();
+    // Relative path - shortened by use
+    hosting::add_to_waitlist();
 
     // Order a breakfast in the summer with Rye toast
     let mut meal = back_of_house::Breakfast::summer("Rye");
